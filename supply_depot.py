@@ -67,7 +67,7 @@ st.markdown('<h2 class="subheader-right">Made by CJ</h2>', unsafe_allow_html=Tru
 st.sidebar.header('ID/ PASSWORD')
 user_id = st.sidebar.text_input('아이디 입력', value='', max_chars=15)
 user_password = st.sidebar.text_input('패스워드 입력', value='', type='password')
-click = st.button('sign in')
+click = st.sidebar.button('sign in')  # 버튼을 사이드바에 배치하여 비밀번호 아래로 이동
 
 if click:
     if user_id == 'pass' and user_password == '1234':
