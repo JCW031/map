@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import requests
+import importlib.util
 import os
 
 # 회사 딕셔너리 생성
@@ -74,28 +75,33 @@ if click:
         # GitHub에서 create_map.py 파일 다운로드 및 실행
         url = "https://raw.githubusercontent.com/JCW031/map/main/create_map.py"
         response = requests.get(url)
+        
+        if response.status_code == 200:
+            # 파일로 저장
+            with open('create_map.py', 'w') as file:
+                file.write(response.text)
 
-        # 파일로 저장
-        with open('create_map.py', 'w') as file:
-            file.write(response.text)
+            # 동적으로 모듈 로드
+            spec = importlib.util.spec_from_file_location("create_map", "create_map.py")
+            create_map = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(create_map)
 
-        # create_map 모듈 동적으로 임포트
-        import create_map
+            st.sidebar.header('가고 싶은 회사를 고르세요')
+            menu = st.sidebar.radio('회사 선택', list(companies.keys()))
 
-        st.sidebar.header('가고 싶은 회사를 고르세요')
-        menu = st.sidebar.radio('회사 선택', list(companies.keys()))
+            if menu:
+                st.sidebar.write(f'선택한 회사: {menu}, 회사 번호: {companies[menu]}')
 
-        if menu:
-            st.sidebar.write(f'선택한 회사: {menu}, 회사 번호: {companies[menu]}')
-
-            # 지도 생성 및 표시
-            depart = create_map.create_map()
-            depart.save('company_list.html')
-            st.markdown(
-                f'<iframe src="company_list.html" width="100%" height="800"></iframe>',
-                unsafe_allow_html=True
-            )
+                # 지도 생성 및 표시
+                depart = create_map.create_map()
+                depart.save('company_list.html')
+                st.markdown(
+                    f'<iframe src="company_list.html" width="100%" height="800"></iframe>',
+                    unsafe_allow_html=True
+                )
+            else:
+                st.sidebar.warning('메뉴를 선택해주세요')
         else:
-            st.sidebar.warning('메뉴를 선택해주세요')
+            st.error('create_map.py 파일을 다운로드할 수 없습니다.')
     else:
         st.sidebar.error('아이디 또는 패스워드가 잘못되었습니다.')
