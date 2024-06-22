@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 import requests
-import create_map
+import os
 
 # 회사 딕셔너리 생성
 companies = {
@@ -65,10 +65,16 @@ st.sidebar.header('Log in')
 user_id = st.sidebar.text_input('아이디 입력', value='', max_chars=15)
 user_password = st.sidebar.text_input('패스워드 입력', value='', type='password')
 
-# # GitHub에서 create_map 함수 가져오기
-# url = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/main/create_map.py"
-# response = requests.get(url)
-# exec(response.text)
+# GitHub에서 create_map.py 파일 다운로드 및 실행
+url = "https://raw.githubusercontent.com/JCW031/map/main/create_map.py"
+response = requests.get(url)
+
+# 파일로 저장
+with open('create_map.py', 'w') as file:
+    file.write(response.text)
+
+# create_map 함수 가져오기
+import create_map
 
 if user_id == 'pass' and user_password == '1234':
     st.sidebar.header('가고 싶은 회사를 고르세요')
@@ -79,7 +85,7 @@ if user_id == 'pass' and user_password == '1234':
         st.sidebar.write(f'선택한 회사: {menu}, 회사 번호: {companies[menu]}')
 
         # 지도 생성 및 표시
-        depart = create_map()
+        depart = create_map.create_map()
         depart.save('company_list.html')
         st.markdown(
             f'<iframe src="company_list.html" width="100%" height="800"></iframe>', 
