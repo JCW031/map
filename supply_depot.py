@@ -73,7 +73,7 @@ click = st.sidebar.button('sign in')  # 버튼을 사이드바에 배치하여 �
 if click:
     if user_id == 'pass' and user_password == '1234':
         # GitHub에서 create_map.py 파일 다운로드 및 실행
-        url = "https://raw.githubusercontent.com/JCW031/map/main/create_map.py"
+        url = "https://github.com/JCW031/map/data_crawling"
         response = requests.get(url)
         
         if response.status_code == 200:
