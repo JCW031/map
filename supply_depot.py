@@ -5,7 +5,7 @@ st.title('직무캠프 참여기업 데이터 베이스')
 st.header('Made by CJ')
 
 # 이미지 열기 및 표시
-main_screen_image = Image.open('relative/path/to/main screen.png')
+main_screen_image = Image.open('main screen.png')
 st.image(main_screen_image, caption='Main Screen', use_column_width=True)
 
 # Sidebar에 로그인 섹션 추가
