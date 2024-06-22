@@ -72,19 +72,19 @@ click = st.sidebar.button('sign in')  # 버튼을 사이드바에 배치하여 �
 
 if click:
     if user_id == 'pass' and user_password == '1234':
-        # GitHub에서 create_map.py 파일 다운로드 및 실행
-        url = "https://github.com/JCW031/map/data_crawling"
+        # GitHub에서 data_crawling.py 파일 다운로드 및 실행
+        url = "https://raw.githubusercontent.com/JCW031/map/main/data_crawling.py"
         response = requests.get(url)
         
         if response.status_code == 200:
             # 파일로 저장
-            with open('create_map.py', 'w') as file:
+            with open('data_crawling.py', 'w') as file:
                 file.write(response.text)
 
             # 동적으로 모듈 로드
-            spec = importlib.util.spec_from_file_location("create_map", "create_map.py")
-            create_map = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(create_map)
+            spec = importlib.util.spec_from_file_location("data_crawling", "data_crawling.py")
+            data_crawling = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(data_crawling)
 
             st.sidebar.header('가고 싶은 회사를 고르세요')
             menu = st.sidebar.radio('회사 선택', list(companies.keys()))
@@ -93,7 +93,7 @@ if click:
                 st.sidebar.write(f'선택한 회사: {menu}, 회사 번호: {companies[menu]}')
 
                 # 지도 생성 및 표시
-                depart = create_map.create_map()
+                depart = data_crawling.create_map()
                 depart.save('company_list.html')
                 st.markdown(
                     f'<iframe src="company_list.html" width="100%" height="800"></iframe>',
@@ -102,6 +102,6 @@ if click:
             else:
                 st.sidebar.warning('메뉴를 선택해주세요')
         else:
-            st.error('create_map.py 파일을 다운로드할 수 없습니다.')
+            st.error('data_crawling.py 파일을 다운로드할 수 없습니다. URL을 확인하세요.')
     else:
         st.sidebar.error('아이디 또는 패스워드가 잘못되었습니다.')
