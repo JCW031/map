@@ -1,6 +1,5 @@
 import streamlit as st
 from PIL import Image
-import company_data
 
 st.title('직무캠프 참여기업 데이터 베이스')
 st.header('Made by CJ')
