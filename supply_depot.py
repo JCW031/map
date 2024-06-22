@@ -1,12 +1,27 @@
 import streamlit as st
 from PIL import Image
 
+# CSS 스타일을 사용하여 subheader 오른쪽 정렬 설정
+st.markdown(
+    """
+    <style>
+    .streamlit-subheader {
+        text-align: right;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# 제목과 이미지 출력
 st.title('직무캠프 참여기업 데이터 베이스')
-st.header('Made by CJ')
 
 # 이미지 열기 및 표시
 main_screen_image = Image.open('main screen.png')
 st.image(main_screen_image, caption='Main Screen', use_column_width=True)
+
+# 오른쪽 정렬된 subheader 출력
+st.subheader('Made by CJ')
 
 # Sidebar에 로그인 섹션 추가
 st.sidebar.header('Log in')
@@ -55,7 +70,6 @@ if user_id == 'pass' and user_password == '1234':
         # 여기에 선택한 회사에 따른 추가적인 작업을 수행할 수 있음
     else:
         st.sidebar.warning('메뉴를 선택해주세요')
-else:
-    st.sidebar.warning('잘못된 아이디 또는 패스워드입니다.')
+
 
     
