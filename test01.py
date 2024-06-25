@@ -6,7 +6,7 @@ import base64
 
 def create_map():
     # 데이터프레임 로드
-    df = pd.read_excel(r'C:\Users\JBEDU30\Desktop\DA_JCW(N)\project 01\geocode_company.xlsx')
+    df = pd.read_excel('geocode_company.xlsx')
 
     # 지도 생성
     depart = folium.Map(location=[df['Latitude'].mean(), df['Longitude'].mean()],
